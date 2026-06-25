@@ -147,7 +147,17 @@ fun markdown(builder: BlockBuilder.() -> Unit): List<Element> {
     return b.blocks.toList()
 }
 
-fun List<Element>.render(config: MarkdownRendererConfig = MarkdownRendererConfig()): String {
-    val sep = "\n".repeat(config.blockSpacing + 1)
-    return joinToString(sep) { it.render(config) }
+fun List<Element>.renderAll(config: MarkdownRendererConfig = MarkdownRendererConfig()): String {
+    val self = this
+    return buildString {
+        for (i in self.indices) {
+            if (i > 0) {
+                val curr = self[i]
+                val n = if (curr is Heading) config.newlinesNumBeforeSectionHeader
+                else config.newlinesNumAfterSectionHeader
+                repeat(n + 1) { append('\n') }
+            }
+            append(self[i].render(config))
+        }
+    }
 }

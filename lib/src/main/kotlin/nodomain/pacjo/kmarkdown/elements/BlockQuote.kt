@@ -10,7 +10,7 @@ class BlockQuote(
     val blocks: KtList<Element>
 ) : Element() {
     override fun render(config: MarkdownRendererConfig): String {
-        val sep = "\n".repeat(config.blockSpacing + 1)
+        val sep = "\n".repeat(config.newlinesNumAfterSectionHeader + 1)
         return blocks.joinToString(sep) { block ->
             block.render(config).lines().joinToString("\n") { line ->
                 "> $line"
