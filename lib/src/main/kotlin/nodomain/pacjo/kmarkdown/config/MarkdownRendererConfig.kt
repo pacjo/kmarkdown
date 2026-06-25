@@ -4,9 +4,10 @@ data class MarkdownRendererConfig(
     val newlinesNumBeforeSectionHeader: Int = 2,
     val newlinesNumAfterSectionHeader: Int = 1,
     val listItemIndent: Int = 4,
-    val listItemMarkers: List<Char> = listOf('*', '-', '+'),
+    val listItemMarkers: List<Char> = listOf('-', '*', '+'),
     val orderedListDelimiter: Char = '.',
     val emphasisDelimiter: Char = '*',
+    val blockSpacing: Int = 1,
 ) {
     init {
         require(newlinesNumBeforeSectionHeader >= 0) {
@@ -29,6 +30,9 @@ data class MarkdownRendererConfig(
         }
         require(emphasisDelimiter == '*' || emphasisDelimiter == '_') {
             "emphasisDelimiter must be '*' or '_', got '$emphasisDelimiter'"
+        }
+        require(blockSpacing >= 0) {
+            "blockSpacing must be >= 0, got $blockSpacing"
         }
     }
 }

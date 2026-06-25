@@ -49,7 +49,8 @@ class ListItem(
     val blocks: KtList<Element>
 ) : Element() {
     override fun render(config: MarkdownRendererConfig): String {
-        return blocks.joinToString("\n\n") { it.render(config) }
+        val sep = "\n".repeat(config.blockSpacing + 1)
+        return blocks.joinToString(sep) { it.render(config) }
     }
 }
 
@@ -78,11 +79,12 @@ private fun renderItem(
         return firstRendered
     }
 
-    val restRendered = rest.joinToString("\n\n") { block: String ->
+    val sep = "\n".repeat(config.blockSpacing + 1)
+    val restRendered = rest.joinToString(sep) { block: String ->
         block.lines().joinToString("\n") { line ->
             if (line.isBlank()) line else "$indentStr$line"
         }
     }
 
-    return "$firstRendered\n\n$restRendered"
+    return "$firstRendered$sep$restRendered"
 }
