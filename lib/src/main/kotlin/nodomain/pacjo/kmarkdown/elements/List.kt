@@ -46,7 +46,8 @@ sealed class List : Element() {
 }
 
 class ListItem(
-    val blocks: KtList<Element>
+    val blocks: KtList<Element>,
+    val checked: Boolean? = null,
 ) : Element() {
     override fun render(config: MarkdownRendererConfig): String {
         val sep = "\n".repeat(config.newlinesNumAfterSectionHeader + 1)
@@ -60,10 +61,19 @@ private fun renderItem(
     indentStr: String,
     config: MarkdownRendererConfig
 ): String {
+    val checkbox = when (item.checked) {
+        true -> "[x] "
+        false -> "[ ] "
+        null -> ""
+    }
+    val effMarker = "$markerStr$checkbox"
+    val effIndent = "$indentStr${" ".repeat(checkbox.length)}"
+
     val renderedBlocks = item.blocks.map { it.render(config) }
 
     if (renderedBlocks.isEmpty()) {
-        return markerStr.trimEnd()
+        return if (item.checked != null) "$markerStr$checkbox".trimEnd()
+        else markerStr.trimEnd()
     }
 
     val first = renderedBlocks.first()
@@ -71,8 +81,8 @@ private fun renderItem(
 
     val firstLines = first.lines()
     val firstRendered = firstLines.mapIndexed { i, line ->
-        if (i == 0) "$markerStr$line"
-        else "$indentStr$line"
+        if (i == 0) "$effMarker$line"
+        else "$effIndent$line"
     }.joinToString("\n")
 
     if (rest.isEmpty()) {
@@ -82,7 +92,7 @@ private fun renderItem(
     val sep = "\n".repeat(config.newlinesNumAfterSectionHeader + 1)
     val restRendered = rest.joinToString(sep) { block: String ->
         block.lines().joinToString("\n") { line ->
-            if (line.isBlank()) line else "$indentStr$line"
+            if (line.isBlank()) line else "$effIndent$line"
         }
     }
 
