@@ -13,3 +13,4 @@ plugins {
 
 rootProject.name = "kotlin-markdown"
 include("lib")
+include("app")

@@ -1,6 +1,7 @@
 package nodomain.pacjo.kmarkdown.dsl
 
 import nodomain.pacjo.kmarkdown.config.MarkdownRendererConfig
+import nodomain.pacjo.kmarkdown.elements.Alignment
 import nodomain.pacjo.kmarkdown.elements.BlockQuote
 import nodomain.pacjo.kmarkdown.elements.Code
 import nodomain.pacjo.kmarkdown.elements.Element
@@ -13,6 +14,10 @@ import nodomain.pacjo.kmarkdown.elements.Link
 import nodomain.pacjo.kmarkdown.elements.ListItem
 import nodomain.pacjo.kmarkdown.elements.Paragraph
 import nodomain.pacjo.kmarkdown.elements.Strong
+import nodomain.pacjo.kmarkdown.elements.Strikethrough
+import nodomain.pacjo.kmarkdown.elements.Table
+import nodomain.pacjo.kmarkdown.elements.TableColumn
+import nodomain.pacjo.kmarkdown.elements.TableRow
 import nodomain.pacjo.kmarkdown.elements.Text
 import nodomain.pacjo.kmarkdown.elements.ThematicBreak
 import nodomain.pacjo.kmarkdown.elements.List as MdList
@@ -78,6 +83,12 @@ class BlockBuilder(private val depth: Int = 0) {
         b.builder()
         blocks.add(MdList.Ordered(b.items.toList(), startNumber))
     }
+
+    fun table(builder: TableBuilder.() -> Unit) {
+        val b = TableBuilder()
+        b.builder()
+        blocks.add(Table(b.columns.toList(), b.rows.toList()))
+    }
 }
 
 class InlineBuilder {
@@ -118,6 +129,12 @@ class InlineBuilder {
     fun html(content: String) {
         elements.add(Html(content))
     }
+
+    fun strikethrough(builder: InlineBuilder.() -> Unit) {
+        val b = InlineBuilder()
+        b.builder()
+        elements.add(Strikethrough(b.elements.toList()))
+    }
 }
 
 class BulletListBuilder(private val depth: Int) {
@@ -127,6 +144,12 @@ class BulletListBuilder(private val depth: Int) {
         val b = BlockBuilder(depth)
         b.builder()
         items.add(ListItem(b.blocks.toList()))
+    }
+
+    fun taskItem(checked: Boolean = false, builder: BlockBuilder.() -> Unit) {
+        val b = BlockBuilder(depth)
+        b.builder()
+        items.add(ListItem(b.blocks.toList(), checked = checked))
     }
 }
 
@@ -138,6 +161,47 @@ class OrderedListBuilder(private val depth: Int) {
         val b = BlockBuilder(depth)
         b.builder()
         items.add(ListItem(b.blocks.toList()))
+    }
+
+    fun taskItem(checked: Boolean = false, builder: BlockBuilder.() -> Unit) {
+        val b = BlockBuilder(depth)
+        b.builder()
+        items.add(ListItem(b.blocks.toList(), checked = checked))
+    }
+}
+
+class TableBuilder {
+    internal val columns = mutableListOf<TableColumn>()
+    internal val rows = mutableListOf<TableRow>()
+
+    fun column(header: InlineBuilder.() -> Unit, alignment: Alignment = Alignment.LEFT) {
+        val b = InlineBuilder()
+        b.header()
+        columns.add(TableColumn(b.elements.toList(), alignment))
+    }
+
+    fun column(header: String, alignment: Alignment = Alignment.LEFT) {
+        column(header = { +header }, alignment = alignment)
+    }
+
+    fun row(builder: RowBuilder.() -> Unit) {
+        val b = RowBuilder()
+        b.builder()
+        rows.add(TableRow(b.cells.toList()))
+    }
+}
+
+class RowBuilder {
+    internal val cells = mutableListOf<List<Element>>()
+
+    fun cell(builder: InlineBuilder.() -> Unit) {
+        val b = InlineBuilder()
+        b.builder()
+        cells.add(b.elements.toList())
+    }
+
+    fun cell(text: String) {
+        cell { +text }
     }
 }
 
