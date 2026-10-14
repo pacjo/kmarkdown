@@ -1,4 +1,4 @@
-package nodomain.pacjo.kmarkdown.config
+package org.pacjo.kmarkdown.config
 
 data class MarkdownRendererConfig(
     val newlinesNumBeforeSectionHeader: Int = 2,

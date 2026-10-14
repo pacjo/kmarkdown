@@ -1,26 +1,26 @@
-package nodomain.pacjo.kmarkdown.dsl
+package org.pacjo.kmarkdown.dsl
 
-import nodomain.pacjo.kmarkdown.config.MarkdownRendererConfig
-import nodomain.pacjo.kmarkdown.elements.Alignment
-import nodomain.pacjo.kmarkdown.elements.BlockQuote
-import nodomain.pacjo.kmarkdown.elements.Code
-import nodomain.pacjo.kmarkdown.elements.Element
-import nodomain.pacjo.kmarkdown.elements.Emphasis
-import nodomain.pacjo.kmarkdown.elements.Heading
-import nodomain.pacjo.kmarkdown.elements.Html
-import nodomain.pacjo.kmarkdown.elements.Image
-import nodomain.pacjo.kmarkdown.elements.Language
-import nodomain.pacjo.kmarkdown.elements.Link
-import nodomain.pacjo.kmarkdown.elements.ListItem
-import nodomain.pacjo.kmarkdown.elements.Paragraph
-import nodomain.pacjo.kmarkdown.elements.Strong
-import nodomain.pacjo.kmarkdown.elements.Strikethrough
-import nodomain.pacjo.kmarkdown.elements.Table
-import nodomain.pacjo.kmarkdown.elements.TableColumn
-import nodomain.pacjo.kmarkdown.elements.TableRow
-import nodomain.pacjo.kmarkdown.elements.Text
-import nodomain.pacjo.kmarkdown.elements.ThematicBreak
-import nodomain.pacjo.kmarkdown.elements.List as MdList
+import org.pacjo.kmarkdown.config.MarkdownRendererConfig
+import org.pacjo.kmarkdown.elements.Alignment
+import org.pacjo.kmarkdown.elements.BlockQuote
+import org.pacjo.kmarkdown.elements.Code
+import org.pacjo.kmarkdown.elements.Element
+import org.pacjo.kmarkdown.elements.Emphasis
+import org.pacjo.kmarkdown.elements.Heading
+import org.pacjo.kmarkdown.elements.Html
+import org.pacjo.kmarkdown.elements.Image
+import org.pacjo.kmarkdown.elements.Language
+import org.pacjo.kmarkdown.elements.Link
+import org.pacjo.kmarkdown.elements.ListItem
+import org.pacjo.kmarkdown.elements.Paragraph
+import org.pacjo.kmarkdown.elements.Strong
+import org.pacjo.kmarkdown.elements.Strikethrough
+import org.pacjo.kmarkdown.elements.Table
+import org.pacjo.kmarkdown.elements.TableColumn
+import org.pacjo.kmarkdown.elements.TableRow
+import org.pacjo.kmarkdown.elements.Text
+import org.pacjo.kmarkdown.elements.ThematicBreak
+import org.pacjo.kmarkdown.elements.List as MdList
 
 class BlockBuilder(private val depth: Int = 0) {
     internal val blocks = mutableListOf<Element>()

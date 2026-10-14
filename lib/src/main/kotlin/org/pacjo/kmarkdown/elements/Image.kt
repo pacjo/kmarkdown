@@ -1,6 +1,6 @@
-package nodomain.pacjo.kmarkdown.elements
+package org.pacjo.kmarkdown.elements
 
-import nodomain.pacjo.kmarkdown.config.MarkdownRendererConfig
+import org.pacjo.kmarkdown.config.MarkdownRendererConfig
 
 /**
  * Represents an image element.

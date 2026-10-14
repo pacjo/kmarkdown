@@ -1,18 +1,17 @@
-package nodomain.pacjo.kmarkdown.elements
+package org.pacjo.kmarkdown.elements
 
 import kotlin.collections.List as KtList
-import nodomain.pacjo.kmarkdown.config.MarkdownRendererConfig
+import org.pacjo.kmarkdown.config.MarkdownRendererConfig
 
 /**
- * Represents strong inline text.
+ * Represents emphasised inline text.
  */
-class Strong(
+class Emphasis(
     val content: KtList<Element>
 ) : Element() {
     override fun render(config: MarkdownRendererConfig): String {
         val inner = content.joinToString("") { it.render(config) }
         val d = config.emphasisDelimiter
-        val dd = "$d$d"
-        return "$dd$inner$dd"
+        return "$d$inner$d"
     }
 }

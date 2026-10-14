@@ -1,7 +1,7 @@
-package nodomain.pacjo.kmarkdown.elements
+package org.pacjo.kmarkdown.elements
 
 import kotlin.collections.List as KtList
-import nodomain.pacjo.kmarkdown.config.MarkdownRendererConfig
+import org.pacjo.kmarkdown.config.MarkdownRendererConfig
 
 /**
  * Represents a block quote, which can contain any sequence of block-level elements.
